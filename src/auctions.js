@@ -1,12 +1,19 @@
-/* eslint-disable no-undef */
-Auctions = {
-  init: async () => {
-    console.log('Auctions init')
-    const accounts = await ethereum.request({ method: 'eth_accounts' });
-    Auctions.appendAuctions(accounts[0])
-  },
+import App from './App';
+import web3 from './init-web3';
+import chart from 'chart';
+import $ from 'jquery';
+window.jQuery = $;
+window.$ = $;
 
-  appendAuctions: (account) => {
+var fitty = require("fitty");
+class Auctions {
+  init = async () => {
+    console.log('Auctions init')
+    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+    Auctions.appendAuctions(accounts[0])
+  }
+
+  appendAuctions = (account) => {
     App.contracts.NFTDutchAuction.deployed().then((instance) => {
       // get all events
       const allContractEvents = instance.allEvents({fromBlock: 0, toBlock: 'latest'})
@@ -58,9 +65,9 @@ Auctions = {
       console.error(err.message)
     });
     return Auctions.bindEvents()
-  },
+  }
 
-  bindEvents: () => {
+  bindEvents = async() => {
     // add 'number to sell' to modal
     $(document).on('click', '#auctionsRow .view-auction', function(event) {
       const parent = $(this).parent().parent().parent(); // TODO: ugh
@@ -117,9 +124,9 @@ Auctions = {
       })
 
     })
-  },
+  }
 
-  constructChart: (data) => {
+  constructChart = async(data) => {
     // generate datasets
     let datasets = { time: [], price: [] }
 
@@ -249,10 +256,10 @@ Auctions = {
     }
     // build chart
     const chartId = document.getElementById('chart').getContext('2d')
-    const chart = new Chart(chartId, options)
+    const chart1 = new chart(chartId, options)
     // when closing modal reset chart to avoid displaying errors
     $('#viewAuctionModal').on('hidden.bs.modal', () => {
-      chart.destroy()
+      chart1.destroy()
     });
   }
 }

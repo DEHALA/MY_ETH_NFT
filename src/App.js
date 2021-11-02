@@ -1,8 +1,15 @@
-
 import './App.css';
-import React, { Component } from 'react';
+import $ from 'jquery';
+window.jQuery = $;
+window.$ = $;
 
-class App extends Component {
+// import React, { Component } from 'react';
+
+var TruffleContract = require("truffle-contract");
+var fitty = require("fitty");
+
+//var jq=jQuery.noConflict();
+class App {
  // contracts {}
 
   init = async() => {
@@ -30,7 +37,7 @@ class App extends Component {
       numberRow.append(numberTemplate.html())
     }
     // fit textsize of large numbers
-    fitty('#app .number', {
+    fitty('#app.number', {
       minSize: 20,
       maxSize: 60
     })

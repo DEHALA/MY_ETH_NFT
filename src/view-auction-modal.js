@@ -1,4 +1,4 @@
-import App from '../../../yarnTest/reacttest/src/App'
+import App from './App'
 import $ from 'jquery';
 window.jQuery = $;
 window.$ = $;
