@@ -1,9 +1,11 @@
-/* eslint-disable no-undef */
-import './App.css';
-App = {
-  contracts: {},
 
-  init: () => {
+import './App.css';
+import React, { Component } from 'react';
+
+class App extends Component {
+ // contracts {}
+
+  init = async() => {
     console.log('App init')
 
     // range of numbers to initialize
@@ -34,9 +36,9 @@ App = {
     })
 
     return App.bindEvents()
-  },
+  }
 
-  initContracts: () => {
+  initContracts = async() => {
     console.log('initializing contracts')
     $.getJSON('NumbersNFT.json', (contract) => {
       // instantiate truffle-contract with contract data
@@ -52,9 +54,9 @@ App = {
     })
     console.log('contracts:')
     console.log(App.contracts)
-  },
+  }
 
-  bindEvents: () => {
+  bindEvents = async() => {
     // submit range form
     $('#search').submit((event) => {
       event.preventDefault()
@@ -70,9 +72,9 @@ App = {
       event.stopImmediatePropagation()
       App.mintNFT(event)
     })
-  },
+  }
 
-  search: () => {
+  search = async() => {
     const  from = document.getElementById('from').value
     const    to = document.getElementById('to').value
     const range = to - from
@@ -105,9 +107,9 @@ App = {
       minSize: 20,
       maxSize: 60
     })
-  },
+  }
 
-  checkAvailability: (event) => {
+  checkAvailability = async(event) => {
     event.preventDefault()
     let tokenToCheck = parseInt($(event.target).data('token-id'))
     console.log(`checkAvailability of NFT ${tokenToCheck}`)
@@ -127,24 +129,24 @@ App = {
       // mark as available
       App.markAsAvailable(tokenToCheck)
     })
-  },
+  }
 
-  markAsBought: (number) => {
+  markAsBought = async (number) => {
     const selector = $(`.panel-number[data-token-id=${number}]`)
     selector.find('.btn-mint').hide()
     selector.find('.info-available').hide()
     selector.find('.btn-avail').show()
     selector.find('.btn-avail').text('Owned').attr('disabled', true)
-  },
+  }
 
-  markAsAvailable: (number) => {
+  markAsAvailable = async(number) => {
     let selector = $(`.panel-number[data-token-id=${number}]`)
     selector.find('.btn-avail').hide()
     selector.find('.info-available').show()
     selector.find('.btn-mint').show()
-  },
+  }
 
-  mintNFT: (event) => {
+  mintNFT = async (event) => {
     event.preventDefault()
 
     const tokenToBuy = parseInt($(event.target).data('token-id'))
@@ -171,14 +173,14 @@ App = {
         })
       }
     })
-  },
+  }
 
-  displayErrorMessage: (message) => {
+  displayErrorMessage= async(message) => {
     $('#errorMessage').text(message).show()
-  },
+  }
 }
 
-$(() => {
+$( async() => {
   $(window).load(() => {
     App.init()
   })

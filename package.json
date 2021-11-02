@@ -6,7 +6,6 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
-    "jquery": "^3.6.0",
     "openzeppelin-solidity": "^4.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -50,5 +49,5 @@
   "bugs": {
     "url": "https://github.com/DEHALA/MY_ETH_NFT/issues"
   },
-  "homepage": "https://github.com/DEHALA/MY_ETH_NFT"
+  "homepage": "https://github.com/DEHALA/MY_ETH_NFT#readme"
 }
