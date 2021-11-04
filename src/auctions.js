@@ -1,4 +1,4 @@
-import App from './App';
+import App from './buy-nft';
 import web3 from './init-web3';
 import chart from 'chart';
 import 'fitty';
