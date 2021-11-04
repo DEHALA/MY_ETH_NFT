@@ -8701,6 +8701,11 @@ open@^7.0.2:
     is-docker "^2.0.0"
     is-wsl "^2.1.1"
 
+openzeppelin-solidity@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.npmmirror.com/openzeppelin-solidity/download/openzeppelin-solidity-4.3.2.tgz#30ab3cb813166a070b8e46d7ac719aefa4571921"
+  integrity sha1-MKs8uBMWagcLjkbXrHGa76RXGSE=
+
 opn@^5.5.0:
   version "5.5.0"
   resolved "https://registry.npm.taobao.org/opn/download/opn-5.5.0.tgz#fc7164fab56d235904c51c3b27da6758ca3b9bfc"
