@@ -15,12 +15,7 @@ library AddressUtils
    * @param _addr Address to check.
    * @return addressCheck True if _addr is a contract, false if not.
    */
-  function isContract(
-   address _addr
-  )
-    internal
-    view
-    returns (bool addressCheck)
+  function isContract(address _addr) internal view returns (bool addressCheck)
   {
     // This method relies in extcodesize, which returns 0 for contracts in
     // construction, since the code is only stored at the end of the

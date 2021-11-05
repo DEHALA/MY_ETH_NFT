@@ -1,21 +1,9 @@
-import './App.css';
-import React from 'react';
-// import ReactDOM from 'react-dom';
-import TruffleContract from 'truffle-contract';
-// import * as web3 from './init-web3';
+/* eslint-disable no-undef */ 
 import 'fitty';
-import $ from 'jquery';
-// window.jQuery = $;
-// window.$ = $;
+App = {
+  contracts: {},
 
-//var TruffleContract = require("truffle-contract");
-var fitty = require("fitty");
-
-//var jq=jQuery.noConflict();
-class App extends React.Component {
-  contracts = async() => {}
-
-  init = async() => {
+  init: () => {
     console.log('App init')
 
     // range of numbers to initialize
@@ -40,15 +28,15 @@ class App extends React.Component {
       numberRow.append(numberTemplate.html())
     }
     // fit textsize of large numbers
-    fitty('#app.number', {
+    fitty.default('#app .number', {
       minSize: 20,
       maxSize: 60
     })
 
     return App.bindEvents()
-  }
+  },
 
-  initContracts = async() => {
+  initContracts: () => {
     console.log('initializing contracts')
     $.getJSON('NumbersNFT.json', (contract) => {
       // instantiate truffle-contract with contract data
@@ -64,9 +52,9 @@ class App extends React.Component {
     })
     console.log('contracts:')
     console.log(App.contracts)
-  }
+  },
 
-  bindEvents = async() => {
+  bindEvents: () => {
     // submit range form
     $('#search').submit((event) => {
       event.preventDefault()
@@ -82,9 +70,9 @@ class App extends React.Component {
       event.stopImmediatePropagation()
       App.mintNFT(event)
     })
-  }
+  },
 
-  search = async() => {
+  search: () => {
     const  from = document.getElementById('from').value
     const    to = document.getElementById('to').value
     const range = to - from
@@ -113,13 +101,13 @@ class App extends React.Component {
       }
     }
     // fit textsize of large numbers
-    fitty('#numberRow .number', {
+    fitty.default('#numberRow .number', {
       minSize: 20,
       maxSize: 60
     })
-  }
+  },
 
-  checkAvailability = async(event) => {
+  checkAvailability: (event) => {
     event.preventDefault()
     let tokenToCheck = parseInt($(event.target).data('token-id'))
     console.log(`checkAvailability of NFT ${tokenToCheck}`)
@@ -139,24 +127,24 @@ class App extends React.Component {
       // mark as available
       App.markAsAvailable(tokenToCheck)
     })
-  }
+  },
 
-  markAsBought = async (number) => {
+  markAsBought: (number) => {
     const selector = $(`.panel-number[data-token-id=${number}]`)
     selector.find('.btn-mint').hide()
     selector.find('.info-available').hide()
     selector.find('.btn-avail').show()
     selector.find('.btn-avail').text('Owned').attr('disabled', true)
-  }
+  },
 
-  markAsAvailable = async(number) => {
+  markAsAvailable: (number) => {
     let selector = $(`.panel-number[data-token-id=${number}]`)
     selector.find('.btn-avail').hide()
     selector.find('.info-available').show()
     selector.find('.btn-mint').show()
-  }
+  },
 
-  mintNFT = async (event) => {
+  mintNFT: (event) => {
     event.preventDefault()
 
     const tokenToBuy = parseInt($(event.target).data('token-id'))
@@ -164,7 +152,7 @@ class App extends React.Component {
     window.web3.eth.getAccounts((error, accounts) => {
       if (error) {
         console.error(error)
-      } else if (accounts.length === 0) {
+      } else if (accounts.length == 0) {
         // TODO:
         console.log('no accounts found')
         console.log('is metamask unlocked?')
@@ -183,20 +171,17 @@ class App extends React.Component {
         })
       }
     })
-  }
+  },
 
-  displayErrorMessage= async(message) => {
+  displayErrorMessage: (message) => {
     $('#errorMessage').text(message).show()
-  }
-
-  render(){
-    return <h1>Hi</h1>
-  }
+  },
 }
 
-$( async() => {
-  $(window).on('load', () => {
+$(() => {
+  $(window).load(() => {
     App.init()
   })
 })
+
 export default App;

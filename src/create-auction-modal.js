@@ -37,11 +37,11 @@ CreateAuctionM = {
       const account = accounts[0]
       let approved = false
 
-      App.contracts.NFTDutchAuction.deployed().then((instance) => {
+      App.contracts.ETH_Auction.deployed().then((instance) => {
         return instance
       }).then((NFTDutchAuction_instance) => {
         return App.contracts.NumbersNFT.deployed().then((instance) => {
-          // allow transfer of NFT by NFTDutchAuction contract
+          // allow transfer of NFT by ETH_Auction contract
           // TODO: before calling .approve(), check if 'tokenToSell' has not been approved already
           console.log(`tokenToSell: ${tokenToSell}`)
           return instance.approve(NFTDutchAuction_instance.address, tokenToSell, { from: account })
@@ -59,7 +59,7 @@ CreateAuctionM = {
         // TODO: there has to be a prettier way to do this
         if (approved) {
           // create auction
-          App.contracts.NFTDutchAuction.deployed().then((instance) => {
+          App.contracts.ETH_Auction.deployed().then((instance) => {
             /*
             console.log('-> idTokenToSell: ' + tokenToSell)
             console.log('-> startingPrice: ' + startingPrice + ' wei')
@@ -76,7 +76,7 @@ CreateAuctionM = {
               uint256 _endingPrice, uint256 _duration
             )
             */
-            console.log('calling NFTDutchAuction.createAuction()')
+            console.log('calling ETH_Auction.createAuction()')
             return instance.createAuction(
               tokenToSell,
               startingPrice,

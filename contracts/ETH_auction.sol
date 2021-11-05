@@ -40,7 +40,7 @@ contract ETH_Auction{
       uint256 _tokenId, uint256 _startingPrice,
       uint256 _endingPrice, uint256 _duration) public {
     
-      require(_startingPrice < 340282366920938463463374607431768211455);        // 128 bits
+      require(_startingPrice < 340282366920938463463374607431768211455);        // 128 bits,保证小于最大值
       require(_endingPrice < 340282366920938463463374607431768211455);          // 128 bits
       require(_duration <= 18446744073709551615 && _duration >= 30 seconds);    // 64 bits
       require(NFTContract.ownerOf(_tokenId) == msg.sender);
@@ -58,7 +58,7 @@ contract ETH_Auction{
       tokenIdToAuction[_tokenId] = auction;
       auctionIdToAuction[auctionId] = auction;
 
-      emit AuctionCreated(
+      emit AuctionCreated(  
           uint64(auctionId),
           uint256(_tokenId),
           uint256(auction.startingPrice),
@@ -69,7 +69,7 @@ contract ETH_Auction{
       auctionId++;
   }
 
-  function getAuctionByAuctionId(uint64 _auctionId) public view returns (
+  function getAuctionByAuctionId(uint64 _auctionId) public view returns (       //通过拍卖事件的ID来获取拍卖事件
       uint64 id,
       address seller,
       uint256 tokenId,
@@ -91,7 +91,7 @@ contract ETH_Auction{
       );
   }
 
-  function getAuctionByTokenId(uint256 _tokenId) public view returns (
+  function getAuctionByTokenId(uint256 _tokenId) public view returns (          //通过NFT的ID来获取拍卖事件
       uint64 id,
       address seller,
       uint256 tokenId,
@@ -113,7 +113,7 @@ contract ETH_Auction{
       );
   }
 
-  function cancelAuctionByAuctionId(uint64 _auctionId) public {
+  function cancelAuctionByAuctionId(uint64 _auctionId) public {             //通过拍卖事件的ID来取消拍卖事件
       Auction storage auction = auctionIdToAuction[_auctionId];
 
       require(auction.startedAt > 0);
@@ -125,7 +125,7 @@ contract ETH_Auction{
       emit AuctionCancelled(_auctionId, auction.tokenId);
   }
 
-  function cancelAuctionByTokenId(uint256 _tokenId) public {
+  function cancelAuctionByTokenId(uint256 _tokenId) public {                //通过NFT的ID来取消拍卖事件
       Auction storage auction = tokenIdToAuction[_tokenId];
 
       require(auction.startedAt > 0);
@@ -137,11 +137,11 @@ contract ETH_Auction{
       emit AuctionCancelled(auction.id, auction.tokenId);
   }
 
-  function bid(uint256 _tokenId) public payable {
+  function bid(uint256 _tokenId) public payable {                           //中标
       Auction storage auction = tokenIdToAuction[_tokenId];
       require(auction.startedAt > 0);
 
-      uint256 price = getCurrentPrice(auction);
+      uint256 price = getCurrentPrice(auction);                             //如果价高，则当前拍卖价格改为该竞价
       require(msg.value >= price);
 
       address seller = auction.seller;
@@ -152,38 +152,35 @@ contract ETH_Auction{
 
       if (price > 0) {
           uint256 sellerProceeds = price;
-          payable(seller).transfer(sellerProceeds);
+          payable(seller).transfer(sellerProceeds);                         //拍卖者获得收入
       }
 
-      NFTContract.transferFrom(seller, msg.sender, _tokenId);
+      NFTContract.transferFrom(seller, msg.sender, _tokenId);               //NFT的所有权转移  
 
       emit AuctionSuccessful(auctionId_temp, _tokenId, price, msg.sender);
   }
 
-  function getCurrentPriceByAuctionId(uint64 _auctionId) public view returns (uint256) {
+  function getCurrentPriceByAuctionId(uint64 _auctionId) public view returns (uint256) { //通过拍卖事件ID获取当前竞拍价格
       Auction storage auction = auctionIdToAuction[_auctionId];
       return getCurrentPrice(auction);
   }
 
-  function getCurrentPriceByTokenId(uint256 _tokenId) public view returns (uint256) {
+  function getCurrentPriceByTokenId(uint256 _tokenId) public view returns (uint256) {   //通过NFT的ID获取当前竞拍价格
       Auction storage auction = tokenIdToAuction[_tokenId];
       return getCurrentPrice(auction);
   }
 
-  function getCurrentPrice(Auction storage _auction) internal view returns (uint256) {
+  function getCurrentPrice(Auction storage _auction) internal view returns (uint256) {  
       require(_auction.startedAt > 0);
       uint256 secondsPassed = 0;
 
       secondsPassed = block.timestamp - _auction.startedAt;
 
-      if (secondsPassed >= _auction.duration) {
+      if (secondsPassed >= _auction.duration) {     //如果超过了规定的拍卖时间，则返回最后的竞拍价格
           return _auction.endingPrice;
       } else {
         //   int256 totalPriceChange = int256(_auction.endingPrice) - int256(_auction.startingPrice);
-          
-
         //   int256 currentPriceChange = totalPriceChange * int256(secondsPassed) / int256(_auction.duration);
-
         //   int256 currentPrice = int256(_auction.startingPrice) + currentPriceChange;
         
             uint128 totalPriceChange = _auction.endingPrice - _auction.startingPrice;

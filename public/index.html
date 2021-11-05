@@ -28,14 +28,14 @@
     <link href="../src/custom-styles.css" rel="stylesheet">
     <link href="../src/overlay-no-web3.css" rel="stylesheet">
     <link href="../src/index.css" rel="stylesheet">
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="../src/assets/bootstrap.min.js"></script>
     <script src="../src/assets/web3.min.js"></script>
     <script src="../src/assets/truffle-contract.js"></script>
     <script src="../src/assets/fitty.min.js"></script>
-
-    <script src="../src/init-web3.js" type="model"></script>
+    <script src="../src/init-web3.js" ></script>
     <script src="../src/buy-nft.js" ></script>
     <script src="../src/navbar-header.js"></script>
     <script>
@@ -43,7 +43,7 @@
         // load navbar and modal
         $("#app > .navbar").load("navbar-header.html");
         // initialize smart contracts
-        App.initContracts();
+        // App.initContracts();
       });
       </script>
 

@@ -1,4 +1,4 @@
-import App from './App'
+import App from './buy-nft'
 import $ from 'jquery';
 // window.jQuery = $;
 // window.$ = $;
@@ -30,7 +30,7 @@ let ViewAuctionM = {
       console.log('tokenToBuy: ' + tokenToBuy)
       */
 
-      App.contracts.NFTDutchAuction.deployed().then((instance) => {
+      App.contracts.ETH_Auction.deployed().then((instance) => {
         return instance.getCurrentPriceByAuctionId(auctionId, {from: account})
       }).then((currentPrice) => {
         console.log(`current price: ${currentPrice}`)
@@ -53,7 +53,7 @@ let ViewAuctionM = {
 
       const account = accounts[0]
 
-      App.contracts.NFTDutchAuction.deployed().then((instance) => {
+      App.contracts.ETH_Auction.deployed().then((instance) => {
         console.log(`calling instance.bid() with price: ${price}`)
         // TODO: calculate fixed gas amount
         return instance.bid(tokenToBuy, {value: price, from: account, gas: 250000})

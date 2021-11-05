@@ -1,4 +1,4 @@
-import App from './App';
+import App from './buy-nft';
 import 'fitty';
 import $ from 'jquery';
 // window.jQuery = $;
@@ -69,7 +69,7 @@ class Inventory  {
   //       - see tokenOfOwnerByIndex() in ERC721Enumerable.sol
 
   appendAuctions: function(account) {
-    App.contracts.NFTDutchAuction.deployed().then(function(instance) {
+    App.contracts.ETH_Auction.deployed().then(function(instance) {
       // get all events
       let allEvents = instance.allEvents({fromBlock: 0, toBlock: 'latest'})
       allEvents.get(function(error, data) {
