@@ -32,7 +32,8 @@
       $("#includedContent > .content-auction-template").load ("./auction-template.html");
       $("#includedContent > .content-modal").load ("./view-auction-modal.html");
       // initialize smart contracts
-      App.initContracts();
+      // App.initContracts();
+      ReactDOM.render(<App/>, document.getElementById('auctionRoot'));
     });
     </script>
   </head>

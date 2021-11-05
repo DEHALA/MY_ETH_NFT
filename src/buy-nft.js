@@ -1,9 +1,23 @@
-/* eslint-disable no-undef */ 
+import './App.css';
+import React from 'react';
+// import ReactDOM from 'react-dom';
+import TruffleContract from 'truffle-contract';
+// import * as web3 from './init-web3';
 import 'fitty';
-App = {
-  contracts: {},
+import $ from 'jquery';
+// window.jQuery = $;
+// window.$ = $;
 
-  init: () => {
+//var TruffleContract = require("truffle-contract");
+
+let fitty = require("fitty");
+//var jq=jQuery.noConflict();
+class App extends React.Component  {
+  
+
+  contracts()  {}
+
+  init = async () => {
     console.log('App init')
 
     // range of numbers to initialize
@@ -28,15 +42,15 @@ App = {
       numberRow.append(numberTemplate.html())
     }
     // fit textsize of large numbers
-    fitty.default('#app .number', {
+    fitty.default('#app.number', {
       minSize: 20,
       maxSize: 60
     })
 
-    return App.bindEvents()
-  },
+    return this.bindEvents()
+  }
 
-  initContracts: () => {
+  initContracts = async () => {
     console.log('initializing contracts')
     $.getJSON('NumbersNFT.json', (contract) => {
       // instantiate truffle-contract with contract data
@@ -44,17 +58,17 @@ App = {
       // set provider for contract
       App.contracts.NumbersNFT.setProvider(window.web3.currentProvider)
     })
-    $.getJSON('NFTDutchAuction.json', (contract) => {
+    $.getJSON('ETH_Auction.json', (contract) => {
       // instantiate truffle-contract with contract data
-      App.contracts.NFTDutchAuction = TruffleContract(contract)
+      App.contracts.ETH_Auction = TruffleContract(contract)
       // set provider for contract
-      App.contracts.NFTDutchAuction.setProvider(window.web3.currentProvider)
+      App.contracts.ETH_Auction.setProvider(window.web3.currentProvider)
     })
     console.log('contracts:')
     console.log(App.contracts)
-  },
+  }
 
-  bindEvents: () => {
+  bindEvents= async () => {
     // submit range form
     $('#search').submit((event) => {
       event.preventDefault()
@@ -70,9 +84,9 @@ App = {
       event.stopImmediatePropagation()
       App.mintNFT(event)
     })
-  },
+  }
 
-  search: () => {
+  search = async () => {
     const  from = document.getElementById('from').value
     const    to = document.getElementById('to').value
     const range = to - from
@@ -105,9 +119,9 @@ App = {
       minSize: 20,
       maxSize: 60
     })
-  },
+  }
 
-  checkAvailability: (event) => {
+  checkAvailability= async(event) => {
     event.preventDefault()
     let tokenToCheck = parseInt($(event.target).data('token-id'))
     console.log(`checkAvailability of NFT ${tokenToCheck}`)
@@ -127,24 +141,24 @@ App = {
       // mark as available
       App.markAsAvailable(tokenToCheck)
     })
-  },
+  }
 
-  markAsBought: (number) => {
+  markAsBought = async(number) => {
     const selector = $(`.panel-number[data-token-id=${number}]`)
     selector.find('.btn-mint').hide()
     selector.find('.info-available').hide()
     selector.find('.btn-avail').show()
     selector.find('.btn-avail').text('Owned').attr('disabled', true)
-  },
+  }
 
-  markAsAvailable: (number) => {
+  markAsAvailable = async(number) => {
     let selector = $(`.panel-number[data-token-id=${number}]`)
     selector.find('.btn-avail').hide()
     selector.find('.info-available').show()
     selector.find('.btn-mint').show()
-  },
+  }
 
-  mintNFT: (event) => {
+  mintNFT = async(event) => {
     event.preventDefault()
 
     const tokenToBuy = parseInt($(event.target).data('token-id'))
@@ -152,7 +166,7 @@ App = {
     window.web3.eth.getAccounts((error, accounts) => {
       if (error) {
         console.error(error)
-      } else if (accounts.length == 0) {
+      } else if (accounts.length === 0) {
         // TODO:
         console.log('no accounts found')
         console.log('is metamask unlocked?')
@@ -171,17 +185,23 @@ App = {
         })
       }
     })
-  },
+  }
 
-  displayErrorMessage: (message) => {
+  displayErrorMessage= async(message) => {
     $('#errorMessage').text(message).show()
-  },
+  }
+
+  render(){
+    this.init()
+    this.initContracts()
+    return <h1>Hi</h1>
+  }
 }
 
-$(() => {
-  $(window).load(() => {
-    App.init()
-  })
-})
+// $( () => {
+//   $(window).on('load', () => {
+//     App.init()
+//   })
+// })
 
 export default App;

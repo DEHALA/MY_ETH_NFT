@@ -13,12 +13,12 @@ contract Ownable {
     owner = msg.sender;
   }
 
-  modifier onlyOwner() {
+  modifier onlyOwner() {    
     require(msg.sender == owner);
     _;
   }
 
-  function transferOwnership(address _newOwner) onlyOwner public{
+  function transferOwnership(address _newOwner) onlyOwner public{//添加修饰，保证只有拥有者才能将NFT所有权转让给别人
     require(_newOwner != address(0));
     emit OwnershipTransferred(owner, _newOwner);
     owner = _newOwner;
